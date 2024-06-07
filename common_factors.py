@@ -6,11 +6,11 @@
 
 from sympy.ntheory import factorint
 from sympy import gcd
-import numpy as np
+from numpy import array, kron, ndarray
 
 
 # Finds the common factors
-def cfs(n: int, m: int) -> list[int]:
+def cfs(n: int, m: int) -> ndarray[int]:
 
     # Gets the greatest common denominator
     gcf = gcd(n, m)
@@ -20,7 +20,7 @@ def cfs(n: int, m: int) -> list[int]:
 
     # 1 is always a common factor.
     # We need this to be a non-empty list for
-    cfs = np.array([1], dtype='float64')
+    cfs = array([1], dtype='float64')
 
     # Recursively finds the common factors by performing
     # the Kronecker product on column matrices composed of
@@ -34,7 +34,7 @@ def cfs(n: int, m: int) -> list[int]:
     return cfs_recursive(pfs, cfs)
 
 # Recursively performs the Kronecker product
-def cfs_recursive(pfs, cfs):
+def cfs_recursive(pfs: dict, cfs: ndarray) -> ndarray[int]:
     
     # Base cases.
     # Return common factors when there are no
@@ -47,12 +47,12 @@ def cfs_recursive(pfs, cfs):
     factor, radix = pfs.popitem()
 
     # Get all items in a mixed radix matrix
-    radices = np.array([factor ** i for i in range(radix + 1)])
+    radices = array([factor ** i for i in range(radix + 1)])
 
     # By performing the Kronecker product on our existing
     # common factors column vector and the mixed radix 
     # matrix, we find more common factors.
-    cfs = np.kron(cfs, radices)
+    cfs = kron(cfs, radices)
 
     # Again!
     return cfs_recursive(pfs, cfs)
