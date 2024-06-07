@@ -1,7 +1,8 @@
 # Tests the speed of the algorithm
 #
 # On my machine, n = 20! * 6! and m = 21! * 6!
-# with 1000 trials takes 8.4s.
+# with 1000 trials takes about 0.7s. Prior to
+# using numpy arrays and np.kron, it took ~8.4s.
 
 from common_factors import cfs
 from time import time_ns as timer

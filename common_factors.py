@@ -6,6 +6,7 @@
 
 from sympy.ntheory import factorint
 from sympy import gcd
+import numpy as np
 
 
 # Finds the common factors
@@ -19,7 +20,9 @@ def cfs(n: int, m: int) -> list[int]:
 
     # 1 is always a common factor.
     # We need this to be a non-empty list for
-    cfs = [1]
+    cfs = np.array([1], dtype='float64')
+
+    # Grabs a list of keys for easier popping later
     keys = list(pfs.keys())
 
     # Recursively finds the common factors by performing
@@ -48,27 +51,13 @@ def cfs_recursive(pfs, keys, cfs):
     radix = pfs.pop(factor)
 
     # Get all items in a mixed radix matrix
-    rads = [factor ** i for i in range(radix + 1)]
+    # rads = np.array([factor ** i for i in range(radix + 1)], dtype='float64')
+    radices = np.array([factor ** i for i in range(radix + 1)])
 
     # By performing the Kronecker product on our existing
     # common factors column vector and the mixed radix 
     # matrix, we find more common factors.
-    cfs = kronecker(cfs, rads)
+    cfs = np.kron(cfs, radices)
 
     # Again!
     return cfs_recursive(pfs, keys, cfs)
-
-# Combines two list such that each item in a is multiplied
-# by each item in b. b cannot be an empty list.
-# This is similar to taking the outer product; more
-# specifically, this is the Kronecker product
-def kronecker(a: list, b: list) -> list[int]:
-    
-    # Creates a new list to append items to
-    l = []
-
-    # Multiplies each item in a by each item in b
-    for i in a:
-        for j in b:
-            l.append(i * j)
-    return l
