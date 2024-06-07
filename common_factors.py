@@ -44,7 +44,8 @@ def cfs(n: int, m: int) -> list[int]:
     # equal to or less than the occurances of that
     # base in the prime factorization of the greatest
     # common demoninator.
-    # Phew, that's a mouthful.
+    #
+    # Phew, that's a mouthful!
     return cfs_recursive(pfs, keys, cfs)
 
 # Recursively performs the Kronecker product
@@ -71,20 +72,3 @@ def cfs_recursive(pfs, keys, cfs):
 
     # Again!
     return cfs_recursive(pfs, keys, cfs)
-
-
-
-seed()
-n = 1350
-m = 9450
-pfs = factorint(gcd(n, m))
-
-trials = 1000
-max_r = int(1e9)
-
-start = timer()
-for i in range(trials):
-    # n, m = randint(1, max_r), randint(1, max_r)
-    cfs = r_entry(pfs)
-end = timer()
-print(f'Time:\t{(end - start) / 1e9}s')
