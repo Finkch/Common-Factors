@@ -22,9 +22,6 @@ def cfs(n: int, m: int) -> list[int]:
     # We need this to be a non-empty list for
     cfs = np.array([1], dtype='float64')
 
-    # Grabs a list of keys for easier popping later
-    keys = list(pfs.keys())
-
     # Recursively finds the common factors by performing
     # the Kronecker product on column matrices composed of
     # mixed radix numbers. In each matrix, there is one
@@ -34,10 +31,10 @@ def cfs(n: int, m: int) -> list[int]:
     # common demoninator.
     #
     # Phew, that's a mouthful!
-    return cfs_recursive(pfs, keys, cfs)
+    return cfs_recursive(pfs, cfs)
 
 # Recursively performs the Kronecker product
-def cfs_recursive(pfs, keys, cfs):
+def cfs_recursive(pfs, cfs):
     
     # Base cases.
     # Return common factors when there are no
@@ -47,11 +44,9 @@ def cfs_recursive(pfs, keys, cfs):
     
     # Removes an item from the dictionary, getting
     # a base a radix to create a new matrix
-    factor = keys.pop()
-    radix = pfs.pop(factor)
+    factor, radix = pfs.popitem()
 
     # Get all items in a mixed radix matrix
-    # rads = np.array([factor ** i for i in range(radix + 1)], dtype='float64')
     radices = np.array([factor ** i for i in range(radix + 1)])
 
     # By performing the Kronecker product on our existing
@@ -60,4 +55,4 @@ def cfs_recursive(pfs, keys, cfs):
     cfs = np.kron(cfs, radices)
 
     # Again!
-    return cfs_recursive(pfs, keys, cfs)
+    return cfs_recursive(pfs, cfs)
