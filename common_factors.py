@@ -8,21 +8,6 @@ from sympy.ntheory import factorint
 from sympy import gcd
 
 
-# Combines two list such that each item in a is multiplied
-# by each item in b. b cannot be an empty list.
-# This is similar to taking the outer product; more
-# specifically, this is the Kronecker product
-def kronecker(a: list, b: list) -> list[int]:
-    
-    # Creates a new list to append items to
-    l = []
-
-    # Multiplies each item in a by each item in b
-    for i in a:
-        for j in b:
-            l.append(i * j)
-    return l
-
 # Finds the common factors
 def cfs(n: int, m: int) -> list[int]:
 
@@ -72,3 +57,18 @@ def cfs_recursive(pfs, keys, cfs):
 
     # Again!
     return cfs_recursive(pfs, keys, cfs)
+
+# Combines two list such that each item in a is multiplied
+# by each item in b. b cannot be an empty list.
+# This is similar to taking the outer product; more
+# specifically, this is the Kronecker product
+def kronecker(a: list, b: list) -> list[int]:
+    
+    # Creates a new list to append items to
+    l = []
+
+    # Multiplies each item in a by each item in b
+    for i in a:
+        for j in b:
+            l.append(i * j)
+    return l
